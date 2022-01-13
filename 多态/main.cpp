@@ -121,7 +121,7 @@ void test01() {
 虚析构和纯虚析构共性: 1. 可以解决父类指针释放子类对象 2. 都需要有具体的函数实现
 区别: 如果是纯虚析构，该类属于抽象类，无法实例化对象
 */
-#if 1
+#if 0
 class Animal
 {
 public:
@@ -169,6 +169,112 @@ void test01()
 }
 #endif // 1
 
+#if 1
+class Cpu {
+public:
+	virtual void calculate() = 0;
+};
+class VideoCard {
+public:
+	virtual void display() = 0;
+};
+class Memory {
+public:
+	virtual void storage() = 0;
+};
+class Computer {
+public:
+	Computer(Cpu* cpu, VideoCard* vc, Memory* mem) {
+		m_cpu = cpu;
+		m_vc = vc;
+		m_mem = mem;
+	}
+	void work() {
+		m_cpu->calculate();
+		m_vc->display();
+		m_mem->storage();
+	}
+	~Computer()
+	{
+		if (m_cpu!=NULL)
+		{
+			delete m_cpu;
+			m_cpu = NULL;
+		}
+		if (m_vc != NULL)
+		{
+			delete m_vc;
+			m_vc = NULL;
+		}
+		if (m_mem != NULL)
+		{
+			delete m_mem;
+			m_mem = NULL;
+		}
+	}
+private:
+	Cpu* m_cpu;
+	VideoCard* m_vc;
+	Memory* m_mem;
+};
+class IntelCpu :public Cpu {
+public:
+	virtual void calculate(){
+		cout << "intelcpu calculate() " << endl;
+	}
+};
+class IntelVideo :public VideoCard {
+public:
+	virtual void display() {
+		cout << "intelvideo display()" << endl;
+	}
+};
+class IntelMem :public Memory {
+public:
+	virtual void storage() {
+		cout << "intelmem storage()" << endl;
+	}
+};
+class LenovoCpu :public Cpu {
+public:
+	virtual void calculate() {
+		cout << "Lenovocpu calculate() " << endl;
+	}
+};
+class LenovoVideo :public VideoCard {
+public:
+	virtual void display() {
+		cout << "Lenovovideo display()" << endl;
+	}
+};
+class LenovoMem :public Memory {
+public:
+	virtual void storage() {
+		cout << "Lenovomem storage()" << endl;
+	}
+};
+
+
+void test01()
+{	
+	Cpu* intelcpu = new IntelCpu;
+	VideoCard* intelvideo = new IntelVideo;
+	Memory* intelmem = new IntelMem;
+
+	Cpu* lcpu = new LenovoCpu;
+	VideoCard* lvideo = new LenovoVideo;
+	Memory* lmem = new LenovoMem;
+
+	Computer* c1 = new Computer(intelcpu, intelvideo, intelmem);
+	Computer* c2 = new Computer(lcpu, lvideo, lmem);
+
+	c1->work();
+	delete c1;
+	c2->work();
+	delete c2;
+
+}
+#endif
 int main()
 {
 	test01();
