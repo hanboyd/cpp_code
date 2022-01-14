@@ -1,0 +1,4 @@
+﻿  main.cpp
+C:\Users\pooh\Desktop\test\cpp_code\string容器\main.cpp(104,20): warning C4018: “<”: 有符号/无符号不匹配
+C:\Users\pooh\Desktop\test\cpp_code\string容器\main.cpp(110,20): warning C4018: “<”: 有符号/无符号不匹配
+  string容器.vcxproj -> C:\Users\pooh\Desktop\test\cpp_code\string容器\Debug\string容器.exe
